@@ -164,15 +164,13 @@
       </v-row>
     </div>
 
-    <v-divider />
-
     <v-simple-table class="extruders-table">
       <thead>
         <tr>
           <th style="height: 20px; padding: 0 !important; line-height: 20px;" />
           <th
             colspan="3"
-            class="t-group btncolor text-center"
+            class="t-group text-center"
             style="height: 20px; padding: 0 8px !important; line-height: 20px;"
           >
             T1
@@ -183,7 +181,7 @@
           />
           <th
             colspan="3"
-            class="t-group btncolor text-center"
+            class="t-group text-center"
             style="height: 20px; padding: 0 8px !important; line-height: 20px;"
           >
             T2
@@ -473,6 +471,17 @@ export default class Extruders extends Mixins(StateMixin) {
     min-width: 12px;
     padding: 0 !important;
     background: transparent !important;
+  }
+  .t-group {
+    border-style: solid;
+    border-width: 2px 2px 0 !important;
+    background: transparent !important;
+  }
+  &.theme--light .t-group {
+    border-color: rgba(0, 0, 0, 0.12) !important;
+  }
+  &.theme--dark .t-group {
+    border-color: rgba(255, 255, 255, 0.12) !important;
   }
 }
 
