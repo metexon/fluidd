@@ -41,6 +41,8 @@ declare namespace Klipper {
 
       endstop_phase: EndstopPhaseState;
 
+      extruder_status: ExtruderStatusState;
+
       exclude_object: ExcludeObjectState;
 
       [key: `extruder_stepper ${string}`]: ExtruderStepperState;
@@ -174,6 +176,46 @@ declare namespace Klipper {
 
   export interface PrinterState extends PrinterStateBaseType {
     [key: string]: Record<string, any> | undefined;
+  }
+
+  export interface ExtruderStatusChannel {
+    temperature: number;
+    target: number;
+    power: number;
+  }
+
+  export interface ExtruderStatusHead {
+    head: number;
+    name: string;
+    active: boolean;
+    mtx_tool?: {
+      index: number;
+      logical_id: string;
+    } | null;
+    t1: ExtruderStatusChannel;
+    t2?: ExtruderStatusChannel | null;
+    body?: { temperature: number } | null;
+    motor?: { temperature: number } | null;
+  }
+
+  export interface ExtruderStatusGroup {
+    id: string;
+    label?: string;
+    selector: Record<string, string>;
+    heads: number[];
+    ratios: number[];
+    temperature_mode: 'ordinary' | 'mtx' | 'mixed';
+  }
+
+  export interface ExtruderStatusState {
+    extruders: ExtruderStatusHead[];
+    groups: ExtruderStatusGroup[];
+    active_group: {
+      id: string;
+      heads: number[];
+      ratios: number[];
+      temperature_mode?: 'ordinary' | 'mtx' | 'mixed';
+    };
   }
 
   export interface ConfigFileState {

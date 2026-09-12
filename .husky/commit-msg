@@ -1,3 +1,7 @@
+if [ "$(git branch --show-current)" = "mtx" ]; then
+  exit 0
+fi
+
 die () {
   TEXT=$(cat <<'EOF'
 

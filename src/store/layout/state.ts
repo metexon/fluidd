@@ -66,7 +66,8 @@ export const createState = (): LayoutState => {
           { id: 'retract-card', enabled: true, collapsed: false }
         ],
         container2: [
-          { id: 'temperature-card', enabled: true, collapsed: false },
+          { id: 'extruders-card', enabled: true, collapsed: false },
+          { id: 'temperature-card', enabled: false, collapsed: false },
           { id: 'sensors-card', enabled: true, collapsed: false },
           { id: 'console-card', enabled: true, collapsed: false },
           { id: 'jobs-card', enabled: true, collapsed: false },

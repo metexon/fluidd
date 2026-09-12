@@ -640,6 +640,7 @@ app:
       configure: Configuration
       console: Console
       diagnostics: Diagnostics
+      extruders: Extruders
       edit_chart: Edit Chart
       endstops: Endstops
       fans_outputs: Fans & Outputs

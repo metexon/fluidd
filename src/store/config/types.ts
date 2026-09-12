@@ -208,6 +208,14 @@ export interface AxisConfig {
 export interface DashboardConfig {
   tempPresets: TemperaturePreset[];
   sensorColors: Record<string, string>;
+  extruderPresets: ExtruderTemperaturePreset[];
+}
+
+export interface ExtruderTemperaturePreset {
+  id: string;
+  name: string;
+  t1: number;
+  t2?: number;
 }
 
 export interface SaveByPath {

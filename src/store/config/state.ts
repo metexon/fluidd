@@ -91,7 +91,8 @@ export const createState = (): ConfigState => {
       },
       dashboard: {
         tempPresets: [],
-        sensorColors: {}
+        sensorColors: {},
+        extruderPresets: []
       },
       tableHeaders: {},
       thumbnailSizes: {},
