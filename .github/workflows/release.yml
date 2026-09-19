@@ -57,6 +57,18 @@ jobs:
           name: fluidd-${{ github.sha }}
           path: ./dist
 
+
+      - name: Create Moonraker release info
+        run: |
+          cat > ./dist/release_info.json <<EOF
+          {
+            "project_name": "${{ github.event.repository.name }}",
+            "project_owner": "${{ github.repository_owner }}",
+            "version": "${{ github.ref_name }}",
+            "asset_name": "fluidd.zip"
+          }
+          EOF
+
       - name: Create Artifact
         run: |
           cd ./dist
@@ -72,19 +84,11 @@ jobs:
         run: |
           echo "current_version=${GITHUB_REF#refs/tags/v}" >> "$GITHUB_OUTPUT"
 
-      - name: Read ChangeLog
-        uses: mindsers/changelog-reader-action@1faaf50aa09d5793d9a100819973df801febfb31 # v2.4.0
-        id: changelog
-        with:
-          validation_depth: 1
-          version: ${{ steps.tag_name.outputs.current_version }}
-          path: ./CHANGELOG.md
-
       - name: Create Release
-        uses: softprops/action-gh-release@3d0d9888cb7fd7b750713d6e236d1fcb99157228 # v3.0.2
+        uses: softprops/action-gh-release@3d0d9888cb7fd7b750713d6e236d1fcb99157228
         with:
-          name: ${{ steps.tag_name.outputs.current_version }}
-          body: ${{ steps.changelog.outputs.changes }}
+          name: ${{ github.ref_name }}
+          generate_release_notes: true
           files: ./fluidd.zip
           draft: false
           prerelease: ${{ contains(github.ref_name, '-rc') }}
