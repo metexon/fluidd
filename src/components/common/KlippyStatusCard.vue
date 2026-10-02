@@ -1,8 +1,8 @@
 <template>
   <collapsable-card
     :title="`Klippy: ${klippyState}`"
-    icon="$error"
-    icon-color="error"
+    :icon="klippyStarting ? '$sync' : '$error'"
+    :icon-color="klippyStarting ? 'info' : 'error'"
   >
     <v-card-text>
       <v-row>
@@ -37,10 +37,18 @@
               <v-alert
                 text
                 dense
-                type="error"
+                :type="klippyStarting ? 'info' : 'error'"
                 class="ma-0"
               >
                 <span v-safe-html="klippyStateMessage" />
+                <v-progress-linear
+                  v-if="klippyStarting"
+                  class="mt-3"
+                  color="info"
+                  indeterminate
+                  rounded
+                  height="4"
+                />
               </v-alert>
             </v-col>
             <v-col

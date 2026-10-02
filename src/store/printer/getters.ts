@@ -50,6 +50,10 @@ export const getters = {
     return Vue.$filters.prettyCase(serverInfo.klippy_state || '')
   },
 
+  getKlippyStateRaw: (state, getters, rootState): Moonraker.Server.KlippyState => {
+    return rootState.server.info.klippy_state
+  },
+
   getKlippyStateMessage: (state, getters, rootState): string => {
     // If there's absolutely no connection to klipper, then
     // say so.

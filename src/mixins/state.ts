@@ -42,6 +42,14 @@ export default class StateMixin extends Vue {
     return this.$typedGetters['printer/getKlippyState']
   }
 
+  get klippyStateRaw (): Moonraker.Server.KlippyState {
+    return this.$typedGetters['printer/getKlippyStateRaw']
+  }
+
+  get klippyStarting (): boolean {
+    return this.klippyStateRaw === 'startup'
+  }
+
   get klippyStateMessage (): string {
     return this.$typedGetters['printer/getKlippyStateMessage']
   }
