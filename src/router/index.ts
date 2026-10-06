@@ -18,7 +18,19 @@ const routes: Array<RouteConfig> = [
     ...defaultRouteConfig,
     meta: {
       ...defaultRouteConfig.meta,
-      dashboard: true
+      dashboard: true,
+      layoutKey: 'home'
+    }
+  },
+  {
+    path: '/details',
+    name: 'details',
+    component: () => import('@/views/Dashboard.vue'),
+    ...defaultRouteConfig,
+    meta: {
+      ...defaultRouteConfig.meta,
+      dashboard: true,
+      layoutKey: 'dashboard'
     }
   },
   {
@@ -160,6 +172,7 @@ declare module 'vue-router' {
   interface RouteMeta {
     hasSubNavigation?: boolean
     fileDropRoot?: string
+    layoutKey?: string
   }
 }
 

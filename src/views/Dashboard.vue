@@ -173,9 +173,13 @@ export default class Dashboard extends Mixins(StateMixin) {
   }
 
   get layout (): LayoutContainer | undefined {
-    const layoutName: string = this.$typedGetters['layout/getSpecificLayoutName']
+    const layoutName: string = this.$typedGetters['layout/getSpecificLayoutName'](this.layoutKey)
 
     return this.$typedGetters['layout/getLayout'](layoutName)
+  }
+
+  get layoutKey (): string {
+    return this.$route.meta?.layoutKey ?? 'dashboard'
   }
 
   get draggableOptions (): Sortable.Options {
@@ -205,7 +209,7 @@ export default class Dashboard extends Mixins(StateMixin) {
   }
 
   handleUpdateLayout () {
-    const name: string = this.$typedGetters['layout/getSpecificLayoutName']
+    const name: string = this.$typedGetters['layout/getSpecificLayoutName'](this.layoutKey)
 
     this.$typedDispatch('layout/onLayoutChange', {
       name,

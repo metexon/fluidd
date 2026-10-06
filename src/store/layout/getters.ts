@@ -26,8 +26,11 @@ export const getters = {
     if (state.layouts[name]) {
       return cloneDeep(state.layouts[name])
       // return { ...state.layouts[name] }
-    } else if (name.startsWith('dashboard')) {
-      return cloneDeep(state.layouts.dashboard)
+    } else {
+      const defaultLayoutName = Object.keys(state.layouts)
+        .find(layoutName => name.startsWith(`${layoutName}-`))
+
+      if (defaultLayoutName) return cloneDeep(state.layouts[defaultLayoutName])
     }
   },
 
@@ -69,10 +72,10 @@ export const getters = {
     }
   },
 
-  getSpecificLayoutName: (state, getters, rootState): string => {
+  getSpecificLayoutName: (state, getters, rootState) => (layoutName = 'dashboard'): string => {
     const user: AppUser | null = rootState.auth.currentUser
 
-    if (!user) return 'dashboard'
+    if (!user) return layoutName
 
     const size = vuetify.framework.breakpoint.name
 
@@ -80,6 +83,6 @@ export const getters = {
     const username = user.username
       .replace(/[%.]/g, (m) => `%${m.charCodeAt(0).toString(16).toUpperCase().padStart(2, '0')}`)
 
-    return `dashboard-${size}-${username}`
+    return `${layoutName}-${size}-${username}`
   }
 } satisfies GetterTree<LayoutState, RootState>

@@ -51,7 +51,8 @@
       >
         <v-row v-if="(!klippyReady || hasWarnings) && !inLayout">
           <v-col>
-            <klippy-status-card />
+            <metexon-status-card v-if="$route.name === 'home'" />
+            <klippy-status-card v-else />
           </v-col>
         </v-row>
 

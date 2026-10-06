@@ -1,16 +1,31 @@
 <template>
   <collapsable-card
-    :title="`Klippy: ${klippyState}`"
-    icon="$error"
-    icon-color="error"
+    :title="klippyState"
+    :icon="klippyStarting ? '$sync' : '$error'"
+    :icon-color="klippyStarting ? 'info' : 'error'"
   >
     <v-card-text>
       <v-row>
         <v-col
+          v-if="klippyConnected"
           cols="12"
           sm="auto"
         >
-          <system-control />
+          <v-tooltip bottom>
+            <template #activator="{ on, attrs }">
+              <app-btn
+                v-bind="attrs"
+                block
+                color="primary"
+                :disabled="printerPrinting"
+                v-on="on"
+                @click="firmwareRestartKlippy"
+              >
+                {{ $t('app.general.btn.reconnect') }}
+              </app-btn>
+            </template>
+            <span>{{ $t('app.general.tooltip.reload_restart_klipper') }}</span>
+          </v-tooltip>
         </v-col>
         <v-col
           cols="12"
@@ -37,10 +52,18 @@
               <v-alert
                 text
                 dense
-                type="error"
+                :type="klippyStarting ? 'info' : 'error'"
                 class="ma-0"
               >
                 <span v-safe-html="klippyStateMessage" />
+                <v-progress-linear
+                  v-if="klippyStarting"
+                  class="mt-3"
+                  color="info"
+                  indeterminate
+                  rounded
+                  height="4"
+                />
               </v-alert>
             </v-col>
             <v-col
@@ -59,8 +82,9 @@
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator'
 import StateMixin from '@/mixins/state'
+import ServicesMixin from '@/mixins/services'
 
 @Component({})
-export default class KlippyStatusCard extends Mixins(StateMixin) {
+export default class MetexonStatusCard extends Mixins(StateMixin, ServicesMixin) {
 }
 </script>

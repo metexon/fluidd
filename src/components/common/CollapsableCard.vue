@@ -269,7 +269,11 @@ export default class CollapsableCard extends Vue {
       if (this.layoutPath.includes('.')) {
         const split = this.layoutPath.split('.')
         let name = split[0]
-        if (name === 'dashboard') name = this.$typedGetters['layout/getSpecificLayoutName']
+        if (name === 'dashboard') {
+          name = this.$typedGetters['layout/getSpecificLayoutName'](
+            this.$route.meta?.layoutKey ?? 'dashboard'
+          )
+        }
 
         return {
           name,

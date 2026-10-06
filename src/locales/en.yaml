@@ -286,7 +286,7 @@ app:
       add_file: Add File
       add_printer: Add printer
       add_to_queue: Add to Queue
-      adjust_layout: Adjust dashboard layout
+      adjust_layout: Adjust layout
       adjusted: Adjusted
       all: All
       auth_unsure: Unsure why you're seeing this?
@@ -325,6 +325,7 @@ app:
       quad_gantry_level: QGL
       reboot: Reboot
       recover: Recover
+      reconnect: Reconnect
       refresh: Refresh
       refresh_metadata: Refresh Metadata
       reload: Reload
@@ -640,6 +641,7 @@ app:
       configure: Configuration
       console: Console
       diagnostics: Diagnostics
+      details: Details
       extruders: Extruders
       edit_chart: Edit Chart
       endstops: Endstops

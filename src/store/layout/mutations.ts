@@ -30,7 +30,7 @@ export const mutations = {
       }
 
       // migrate existing layouts
-      const migratableLayoutKeys = ['dashboard']
+      const migratableLayoutKeys = ['dashboard', 'home']
 
       for (const [layoutKey, currentLayout] of Object.entries(payload.layouts)) {
         for (const [containerKey, components] of Object.entries(currentLayout)) {

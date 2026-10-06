@@ -32,11 +32,18 @@
           class="nav-items"
         >
           <app-nav-item
-            icon="$dash"
+            icon="$home"
             exact
             to="home"
           >
             {{ $t('app.general.title.home') }}
+          </app-nav-item>
+
+          <app-nav-item
+            icon="$dash"
+            to="details"
+          >
+            {{ $t('app.general.title.details') }}
           </app-nav-item>
 
           <app-nav-item

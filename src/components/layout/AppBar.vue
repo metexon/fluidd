@@ -180,7 +180,7 @@
           </app-btn-group>
 
           <app-btn-group
-            v-if="isDashboard"
+            v-if="isConfigurableDashboard"
             class="mx-1"
           >
             <v-tooltip bottom>
@@ -391,8 +391,12 @@ export default class AppBar extends Mixins(StateMixin, ServicesMixin, FilesMixin
     this.$typedCommit('config/setLayoutMode', false)
   }
 
-  get isDashboard () {
-    return this.$route.name === 'home'
+  get isConfigurableDashboard () {
+    return this.$route.meta?.layoutKey != null
+  }
+
+  get layoutKey (): string {
+    return this.$route.meta?.layoutKey ?? 'dashboard'
   }
 
   handleResetLayout () {
@@ -405,9 +409,9 @@ export default class AppBar extends Mixins(StateMixin, ServicesMixin, FilesMixin
       : undefined
     const layoutDefaultState = pathLayout
       ? createState().layouts[pathLayout]
-      : this.$typedGetters['layout/getLayout']('dashboard')!
+      : this.$typedGetters['layout/getLayout'](this.layoutKey)!
 
-    const toReset = pathLayout ?? this.$typedGetters['layout/getSpecificLayoutName']
+    const toReset = pathLayout ?? this.$typedGetters['layout/getSpecificLayoutName'](this.layoutKey)
 
     this.$typedDispatch('layout/onLayoutChange', {
       name: toReset,
@@ -416,7 +420,7 @@ export default class AppBar extends Mixins(StateMixin, ServicesMixin, FilesMixin
   }
 
   get currentLayoutName () {
-    return this.$typedGetters['layout/getSpecificLayoutName']
+    return this.$typedGetters['layout/getSpecificLayoutName'](this.layoutKey)
   }
 
   get currentUser (): AppUser | null {
@@ -429,15 +433,15 @@ export default class AppBar extends Mixins(StateMixin, ServicesMixin, FilesMixin
 
   handleSetDefaultLayout () {
     this.$typedDispatch('layout/onLayoutChange', {
-      name: 'dashboard',
+      name: this.layoutKey,
       value: this.$typedGetters['layout/getLayout'](this.currentLayoutName)!
     })
   }
 
   handleResetDefaultLayout () {
     this.$typedDispatch('layout/onLayoutChange', {
-      name: 'dashboard',
-      value: createState().layouts.dashboard
+      name: this.layoutKey,
+      value: createState().layouts[this.layoutKey]
     })
   }
 

@@ -52,6 +52,32 @@ export const createDiagnosticsCardState = (): DiagnosticsCardConfig => {
 export const createState = (): LayoutState => {
   return {
     layouts: {
+      home: {
+        container1: [
+          { id: 'printer-status-card', enabled: true, collapsed: false }
+        ],
+        container2: [
+          { id: 'extruders-card', enabled: true, collapsed: false },
+          { id: 'spoolman-card', enabled: false, collapsed: false },
+          { id: 'mmu-card', enabled: false, collapsed: false },
+          { id: 'camera-card', enabled: false, collapsed: false },
+          { id: 'toolhead-card', enabled: false, collapsed: false },
+          { id: 'macros-card', enabled: false, collapsed: false },
+          { id: 'outputs-card', enabled: false, collapsed: false },
+          { id: 'runout-sensors-card', enabled: false, collapsed: false },
+          { id: 'printer-limits-card', enabled: false, collapsed: false },
+          { id: 'retract-card', enabled: false, collapsed: false },
+          { id: 'temperature-card', enabled: false, collapsed: false },
+          { id: 'sensors-card', enabled: false, collapsed: false },
+          { id: 'console-card', enabled: false, collapsed: false },
+          { id: 'jobs-card', enabled: false, collapsed: false },
+          { id: 'job-queue-card', enabled: false, collapsed: false },
+          { id: 'gcode-preview-card', enabled: false, collapsed: false },
+          { id: 'bed-mesh-card', enabled: false, collapsed: false },
+          { id: 'beacon-card', enabled: false, collapsed: false },
+          { id: 'afc-card', enabled: false, collapsed: false }
+        ]
+      },
       dashboard: {
         container1: [
           { id: 'printer-status-card', enabled: true, collapsed: false },

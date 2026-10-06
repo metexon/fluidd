@@ -18,7 +18,7 @@ export const actions = {
 
   async onLayoutChange ({ commit, state }, payload: { name: string; value: LayoutContainer }) {
     const layout = state.layouts[payload.name]
-    if (layout || payload.name.startsWith('dashboard')) {
+    if (layout || ['dashboard', 'home'].some(name => payload.name.startsWith(name))) {
       commit('setLayoutChange', payload)
       await SocketActions.serverDatabasePostItem(
         Globals.MOONRAKER_DB.fluidd.ROOTS.layout.name + '.layouts',
@@ -31,7 +31,15 @@ export const actions = {
     let containers = state.layouts[payload.name]
     if (!containers) {
       // user/device specific layout doesn't exist yet, so we create it
-      dispatch('onLayoutChange', { name: payload.name, value: state.layouts.dashboard })
+      const defaultLayoutName = ['home', 'dashboard']
+        .find(name => payload.name === name || payload.name.startsWith(`${name}-`))
+
+      if (!defaultLayoutName) return
+
+      await dispatch('onLayoutChange', {
+        name: payload.name,
+        value: state.layouts[defaultLayoutName]
+      })
       containers = state.layouts[payload.name]
     }
 

@@ -1,8 +1,9 @@
 import { shallowMount } from '@vue/test-utils'
-import KlippyStatusCard from '@/components/common/KlippyStatusCard.vue'
+import MetexonStatusCard from '@/components/common/MetexonStatusCard.vue'
 
-const makeWrapper = (state: Moonraker.Server.KlippyState, message: string) => shallowMount(KlippyStatusCard, {
+const makeWrapper = (state: Moonraker.Server.KlippyState, message: string) => shallowMount(MetexonStatusCard, {
   mocks: {
+    $t: (key: string) => key,
     $typedGetters: {
       'printer/getKlippyState': state,
       'printer/getKlippyStateRaw': state,
@@ -21,11 +22,12 @@ const makeWrapper = (state: Moonraker.Server.KlippyState, message: string) => sh
   }
 })
 
-describe('KlippyStatusCard', () => {
+describe('MetexonStatusCard', () => {
   it('shows startup as informational progress', () => {
     const wrapper = makeWrapper('startup', 'Connecting to MCU 7 of 19: z_mini_6')
 
     const card = wrapper.find('collapsablecard-stub')
+    expect(card.attributes('title')).toBe('startup')
     expect(card.attributes('icon')).toBe('$sync')
     expect(card.attributes('icon-color')).toBe('info')
     expect(wrapper.find('v-alert-stub').attributes('type')).toBe('info')
