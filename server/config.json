@@ -90,6 +90,16 @@
       }
     },
     {
+      "name": "Metexon",
+      "color": "#F10018",
+      "isDark": true,
+      "logo": {
+        "src": "logo_metexon.svg",
+        "dark": "#1D1D1F",
+        "light": "#FFFFFF"
+      }
+    },
+    {
       "name": "Peopoly",
       "color": "#007CC2",
       "isDark": true,

@@ -144,6 +144,8 @@ declare module 'vue' {
     VTabsItems: typeof import('vuetify/lib')['VTabsItems']
     VTextarea: typeof import('vuetify/lib')['VTextarea']
     VTextField: typeof import('vuetify/lib')['VTextField']
+    VTimeline: typeof import('vuetify/lib')['VTimeline']
+    VTimelineItem: typeof import('vuetify/lib')['VTimelineItem']
     VToolbar: typeof import('vuetify/lib')['VToolbar']
     VToolbarItems: typeof import('vuetify/lib')['VToolbarItems']
     VToolbarTitle: typeof import('vuetify/lib')['VToolbarTitle']
