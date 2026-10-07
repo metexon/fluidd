@@ -5,10 +5,15 @@ type NavigatorWithUserAgentDataMobile = Navigator & {
 }
 
 const isUserAgentDataMobileSupported = (navigator: Navigator): navigator is NavigatorWithUserAgentDataMobile => {
+  if (!('userAgentData' in navigator)) return false
+
+  const { userAgentData } = navigator
+
   return (
-    navigator.userAgentData != null &&
-    'mobile' in navigator.userAgentData &&
-    typeof navigator.userAgentData.mobile === 'boolean'
+    userAgentData != null &&
+    typeof userAgentData === 'object' &&
+    'mobile' in userAgentData &&
+    typeof userAgentData.mobile === 'boolean'
   )
 }
 

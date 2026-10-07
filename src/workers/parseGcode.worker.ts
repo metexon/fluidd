@@ -41,12 +41,15 @@ const sendResult = (result: Omit<ParseGcodeWorkerResultMessage, 'action'>) => {
     ...result
   }
 
-  self.postMessage(
-    message,
-    Object.values(result.moves)
-      .filter(ArrayBuffer.isView)
-      .map(v => v.buffer)
-  )
+  const transferables: Transferable[] = []
+
+  for (const value of Object.values(result.moves)) {
+    if (ArrayBuffer.isView(value) && value.buffer instanceof ArrayBuffer) {
+      transferables.push(value.buffer)
+    }
+  }
+
+  self.postMessage(message, { transfer: transferables })
 }
 
 const sendError = (error?: unknown) => {

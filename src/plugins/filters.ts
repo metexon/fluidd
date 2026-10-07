@@ -11,9 +11,9 @@ import dateTimeFormatters from '@/util/date-time-formatters'
 import stringFormatters from '@/util/string-formatters'
 import isNullOrEmpty, { type NullableOrEmpty } from '@/util/is-null-or-empty'
 import { consola } from 'consola'
-import type { RootActions, RootGetters, RootMutations, RootState } from '@/store/types'
+import type { RootGetters, RootState } from '@/store/types'
 
-const Filters = {
+export const Filters = {
   /**
    * Determines API urls from a base url
    */
@@ -195,29 +195,5 @@ export const FiltersPlugin = {
       },
       enumerable: true
     })
-  }
-}
-
-declare module 'vue/types/vue' {
-  interface Vue {
-    $filters: typeof Filters;
-    $rules: typeof Rules;
-    $globals: typeof Globals;
-    $waits: typeof Waits;
-    $typedState: RootState;
-    $typedGetters: RootGetters;
-    $typedCommit: RootMutations;
-    $typedDispatch: RootActions;
-  }
-
-  interface VueConstructor {
-    $filters: typeof Filters;
-    $rules: typeof Rules;
-    $globals: typeof Globals;
-    $waits: typeof Waits;
-    $typedState: RootState;
-    $typedGetters: RootGetters;
-    $typedCommit: RootMutations;
-    $typedDispatch: RootActions;
   }
 }

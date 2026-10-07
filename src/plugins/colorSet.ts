@@ -105,13 +105,3 @@ export const ColorSetPlugin = {
     Vue.$colorset = colorset
   }
 }
-
-declare module 'vue/types/vue' {
-  interface Vue {
-    $colorset: ColorSet;
-  }
-
-  interface VueConstructor {
-    $colorset: ColorSet;
-  }
-}

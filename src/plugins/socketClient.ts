@@ -311,16 +311,6 @@ export const SocketPlugin = {
   }
 }
 
-declare module 'vue/types/vue' {
-  interface Vue {
-    $socket: WebSocketClient;
-  }
-
-  interface VueConstructor {
-    $socket: WebSocketClient;
-  }
-}
-
 interface SocketPluginOptions {
   store: TypedStore;
 }
