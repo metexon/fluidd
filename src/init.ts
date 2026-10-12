@@ -3,6 +3,7 @@ import store from './store'
 import { consola } from 'consola'
 import { Globals } from './globals'
 import type { ApiConfig, HostConfig, InstanceConfig } from './store/config/types'
+import { bundledThemePresets } from './config/theme-presets'
 import sanitizeEndpoint from './util/sanitize-endpoint'
 import webSocketWrapper from './util/web-socket-wrapper'
 import promiseAny from './util/promise-any'
@@ -27,6 +28,13 @@ const getHostConfig = async () => {
   }
 
   const hostConfig = await response.json() as HostConfig
+  const configuredLogoSources = new Set(hostConfig.themePresets.map(({ logo }) => logo.src))
+  const missingBundledPresets = bundledThemePresets
+    .filter(({ logo }) => !configuredLogoSources.has(logo.src))
+
+  if (missingBundledPresets.length) {
+    hostConfig.themePresets.push(...missingBundledPresets)
+  }
 
   consola.debug('Loaded web host configuration', hostConfig)
 
