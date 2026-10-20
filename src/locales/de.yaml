@@ -596,6 +596,20 @@ app:
       possible_print_failure: Dies kann zu einem fehlgeschlagenen Druck führen
     url:
       stepper_driver_overheating: '%{klipperDomain}/TMC_Drivers.html#tmc-reports-error-ot1overtemperror'
+  pnoz:
+    status:
+      contactor_fault: Schütz-Fehler
+      door_not_closed: Tür nicht geschlossen
+      estop_fault: Not-Halt-Fehler
+      estop_inner_pressed: Not-Halt (Innen) betätigt
+      estop_outer_pressed: Not-Halt (Außen) betätigt
+      hardware_fault: Hardware-Fehler
+      lock_fault: Verriegelungsfehler
+      mode_entnahme: Entnahme-Modus
+      mode_justage: Justage-Modus
+      mode_normal: Normal-Modus
+      mode_selector_fault: Fehler Betriebsart-Schalter
+      unreachable: Keine Verbindung zum Sicherheitssystem
   setting:
     btn:
       add_camera: Kamera hinzufügen

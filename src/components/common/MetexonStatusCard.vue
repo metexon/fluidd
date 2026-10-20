@@ -1,13 +1,13 @@
 <template>
   <collapsable-card
     :title="klippyState"
-    :icon="klippyStarting ? '$sync' : '$error'"
-    :icon-color="klippyStarting ? 'info' : 'error'"
+    :icon="cardIcon"
+    :icon-color="cardIconColor"
   >
     <v-card-text>
       <v-row>
         <v-col
-          v-if="klippyConnected"
+          v-if="!klippyConnected && pnozMainEnabled"
           cols="12"
           sm="auto"
         >
@@ -32,6 +32,20 @@
           sm=""
         >
           <v-row>
+            <v-col
+              v-for="status in pnozStatuses"
+              :key="status.message"
+              cols="12"
+            >
+              <v-alert
+                text
+                dense
+                :type="status.severity"
+                class="ma-0"
+              >
+                <span>{{ $t(`app.pnoz.status.${status.message}`) }}</span>
+              </v-alert>
+            </v-col>
             <v-col
               v-if="printerPoweredOff"
               cols="12"
@@ -83,8 +97,36 @@
 import { Component, Mixins } from 'vue-property-decorator'
 import StateMixin from '@/mixins/state'
 import ServicesMixin from '@/mixins/services'
+import type { PnozStatus } from '@/util/pnoz-status'
 
 @Component({})
 export default class MetexonStatusCard extends Mixins(StateMixin, ServicesMixin) {
+  get pnozMainEnabled (): boolean {
+    return this.$typedGetters['sensors/getPnozMainEnabled']
+  }
+
+  get pnozStatuses (): PnozStatus[] {
+    return this.$typedGetters['sensors/getPnozStatuses']
+  }
+
+  get pnozHasError (): boolean {
+    return this.pnozStatuses.some(status => status.severity === 'error')
+  }
+
+  get cardIcon (): string {
+    if (this.pnozStatuses.length) {
+      return this.pnozHasError ? '$error' : '$alertCircle'
+    }
+
+    return this.klippyStarting ? '$sync' : '$error'
+  }
+
+  get cardIconColor (): string {
+    if (this.pnozStatuses.length) {
+      return this.pnozHasError ? 'error' : 'info'
+    }
+
+    return this.klippyStarting ? 'info' : 'error'
+  }
 }
 </script>

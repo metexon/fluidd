@@ -732,6 +732,20 @@ app:
       possible_print_failure: This may lead to a failed print
     url:
       stepper_driver_overheating: '%{klipperDomain}/TMC_Drivers.html#tmc-reports-error-ot1overtemperror'
+  pnoz:
+    status:
+      contactor_fault: Contactor Fault
+      door_not_closed: Door not closed
+      estop_fault: E-Stop Fault
+      estop_inner_pressed: E-Stop (Inner) pressed
+      estop_outer_pressed: E-Stop (Outer) pressed
+      hardware_fault: Hardware Fault
+      lock_fault: Lock Fault
+      mode_entnahme: Unloading Mode
+      mode_justage: Justage Mode
+      mode_normal: Normal Mode
+      mode_selector_fault: Mode Selector Fault
+      unreachable: Cannot connect to safety system
   setting:
     btn:
       add_camera: Add Camera
