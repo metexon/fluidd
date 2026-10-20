@@ -49,7 +49,7 @@
         :class="[['single', 'double', 'triple', 'quad'][columnCount - 1]]"
         class="constrained-width pa-2 pa-sm-4"
       >
-        <v-row v-if="(!klippyReady || hasWarnings || pnozStatuses.length) && !inLayout">
+        <v-row v-if="showStatusCard && !inLayout">
           <v-col>
             <metexon-status-card v-if="$route.name === 'home'" />
             <klippy-status-card v-else />
@@ -172,6 +172,14 @@ export default class App extends Mixins(StateMixin, FilesMixin, BrowserMixin) {
 
   get pnozStatuses (): PnozStatus[] {
     return this.$typedGetters['sensors/getPnozStatuses']
+  }
+
+  get showStatusCard (): boolean {
+    return (
+      !this.klippyReady ||
+      this.hasWarnings ||
+      (this.$route.name === 'home' && this.pnozStatuses.length > 0)
+    )
   }
 
   get columnCount (): number {
