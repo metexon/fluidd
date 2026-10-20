@@ -15,8 +15,7 @@ const makeWrapper = (
       'printer/getKlippyStateMessage': message,
       'printer/getKlippyConnected': true,
       'printer/getHasWarnings': false,
-      'sensors/getPnozStatuses': pnozStatuses,
-      'sensors/getPnozMainEnabled': false
+      'sensors/getPnozStatuses': pnozStatuses
     }
   },
   stubs: {
@@ -39,6 +38,7 @@ describe('MetexonStatusCard', () => {
     expect(card.attributes('icon-color')).toBe('info')
     expect(wrapper.find('v-alert-stub').attributes('type')).toBe('info')
     expect(wrapper.find('v-progress-linear-stub').exists()).toBe(true)
+    expect(wrapper.text()).toContain('app.general.tooltip.reload_restart_klipper')
     expect(wrapper.text()).toContain('Connecting to MCU 7 of 19: z_mini_6')
   })
 
@@ -52,6 +52,7 @@ describe('MetexonStatusCard', () => {
       expect(card.attributes('icon-color')).toBe('error')
       expect(wrapper.find('v-alert-stub').attributes('type')).toBe('error')
       expect(wrapper.find('v-progress-linear-stub').exists()).toBe(false)
+      expect(wrapper.text()).toContain('app.general.tooltip.reload_restart_klipper')
     }
   )
 
@@ -70,6 +71,7 @@ describe('MetexonStatusCard', () => {
     expect(alerts.length).toBe(3)
     expect(alerts.at(0).attributes('type')).toBe('error')
     expect(alerts.at(1).attributes('type')).toBe('error')
+    expect(wrapper.text()).not.toContain('app.general.tooltip.reload_restart_klipper')
     expect(wrapper.text()).toContain('app.pnoz.status.estop_fault')
     expect(wrapper.text()).toContain('app.pnoz.status.estop_inner_pressed')
   })
@@ -87,6 +89,7 @@ describe('MetexonStatusCard', () => {
     const alerts = wrapper.findAll('v-alert-stub')
     expect(alerts.length).toBe(1)
     expect(alerts.at(0).attributes('type')).toBe('info')
+    expect(wrapper.text()).toContain('app.general.tooltip.reload_restart_klipper')
     expect(wrapper.text()).toContain('app.pnoz.status.mode_justage')
   })
 

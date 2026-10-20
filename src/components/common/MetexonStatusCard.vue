@@ -7,7 +7,7 @@
     <v-card-text>
       <v-row>
         <v-col
-          v-if="!klippyConnected && pnozMainEnabled"
+          v-if="showReconnect"
           cols="12"
           sm="auto"
         >
@@ -101,10 +101,6 @@ import type { PnozStatus } from '@/util/pnoz-status'
 
 @Component({})
 export default class MetexonStatusCard extends Mixins(StateMixin, ServicesMixin) {
-  get pnozMainEnabled (): boolean {
-    return this.$typedGetters['sensors/getPnozMainEnabled']
-  }
-
   get pnozStatuses (): PnozStatus[] {
     return this.$typedGetters['sensors/getPnozStatuses']
   }
@@ -115,6 +111,13 @@ export default class MetexonStatusCard extends Mixins(StateMixin, ServicesMixin)
 
   get pnozShowsEnableHint (): boolean {
     return this.pnozStatuses.some(status => status.message === 'enable_machine')
+  }
+
+  get showReconnect (): boolean {
+    return !this.pnozHasError && (
+      this.klippyStateMessage !== 'Printer is ready' ||
+      this.pnozStatuses.length > 0
+    )
   }
 
   get cardIcon (): string {
