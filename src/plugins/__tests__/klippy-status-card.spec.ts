@@ -63,7 +63,7 @@ describe('MetexonStatusCard', () => {
 
     const card = wrapper.find('collapsablecard-stub')
     expect(card.attributes('title')).toBe('error')
-    expect(card.attributes('icon')).toBe('$error')
+    expect(card.attributes('icon')).toBe('$warning')
     expect(card.attributes('icon-color')).toBe('error')
 
     const alerts = wrapper.findAll('v-alert-stub')
@@ -88,5 +88,22 @@ describe('MetexonStatusCard', () => {
     expect(alerts.length).toBe(1)
     expect(alerts.at(0).attributes('type')).toBe('info')
     expect(wrapper.text()).toContain('app.pnoz.status.mode_justage')
+  })
+
+  it('suppresses the klippy alert while the enable-machine hint shows', () => {
+    const wrapper = makeWrapper('disconnected', 'Klippy not connected.', [
+      { message: 'enable_machine', severity: 'info' }
+    ])
+
+    const card = wrapper.find('collapsablecard-stub')
+    expect(card.attributes('title')).toBe('disconnected')
+    expect(card.attributes('icon')).toBe('$alertCircle')
+    expect(card.attributes('icon-color')).toBe('info')
+
+    const alerts = wrapper.findAll('v-alert-stub')
+    expect(alerts.length).toBe(1)
+    expect(alerts.at(0).attributes('type')).toBe('info')
+    expect(wrapper.text()).toContain('app.pnoz.status.enable_machine')
+    expect(wrapper.text()).not.toContain('Klippy not connected')
   })
 })

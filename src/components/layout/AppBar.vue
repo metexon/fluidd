@@ -98,6 +98,25 @@
         </v-tooltip>
       </div>
 
+      <div v-if="socketReady && pnozFirstError">
+        <v-tooltip bottom>
+          <template #activator="{ on, attrs }">
+            <app-btn
+              icon
+              text
+              v-bind="attrs"
+              :to="{ name: 'home' }"
+              v-on="on"
+            >
+              <v-icon color="error">
+                $warning
+              </v-icon>
+            </app-btn>
+          </template>
+          <span>{{ $t(`app.pnoz.status.${pnozFirstError.message}`) }}</span>
+        </v-tooltip>
+      </div>
+
       <div v-if="socketReady">
         <app-notification-menu />
       </div>
@@ -252,6 +271,7 @@ import type { OutputPin } from '@/store/printer/types'
 import { encodeGcodeParamValue } from '@/util/gcode-helpers'
 import vuetify from '@/plugins/vuetify'
 import type { AppUser } from '@/store/auth/types'
+import type { PnozStatus } from '@/util/pnoz-status'
 
 @Component({
   components: {
@@ -303,6 +323,12 @@ export default class AppBar extends Mixins(StateMixin, ServicesMixin, FilesMixin
 
   get inLayout (): boolean {
     return (this.$typedState.config.layoutMode)
+  }
+
+  get pnozFirstError (): PnozStatus | undefined {
+    const pnozStatuses: PnozStatus[] = this.$typedGetters['sensors/getPnozStatuses']
+
+    return pnozStatuses.find(status => status.severity === 'error')
   }
 
   get showSaveConfigAndRestart (): boolean {

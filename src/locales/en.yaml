@@ -736,6 +736,7 @@ app:
     status:
       contactor_fault: Contactor Fault
       door_not_closed: Door not closed
+      enable_machine: Press enable button on machine to start
       estop_fault: E-Stop Fault
       estop_inner_pressed: E-Stop (Inner) pressed
       estop_outer_pressed: E-Stop (Outer) pressed

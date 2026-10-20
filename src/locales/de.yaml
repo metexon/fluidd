@@ -600,6 +600,7 @@ app:
     status:
       contactor_fault: Schütz-Fehler
       door_not_closed: Tür nicht geschlossen
+      enable_machine: Zum Starten Freigabetaster der Maschine drücken
       estop_fault: Not-Halt-Fehler
       estop_inner_pressed: Not-Halt (Innen) betätigt
       estop_outer_pressed: Not-Halt (Außen) betätigt

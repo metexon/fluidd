@@ -41,5 +41,9 @@ export const evaluatePnozStatuses = (
 
   if (flag(values, 'mode_entnahme')) statuses.push(info('mode_entnahme'))
 
+  if (!statuses.some(status => status.severity === 'error')) {
+    statuses.push(info('enable_machine'))
+  }
+
   return statuses
 }

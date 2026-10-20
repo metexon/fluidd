@@ -62,8 +62,7 @@ describe('evaluatePnozStatuses', () => {
     [{ hardware_fault: 1 }, 'hardware_fault', 'error'],
     [{ estop_inner_ok: 0 }, 'estop_inner_pressed', 'error'],
     [{ estop_outer_ok: 0 }, 'estop_outer_pressed', 'error'],
-    [{ door_closed: 0 }, 'door_not_closed', 'error'],
-    [{ mode_entnahme: 1, mode_normal: 0 }, 'mode_entnahme', 'info']
+    [{ door_closed: 0 }, 'door_not_closed', 'error']
   ] as const)('reports %j as %s/%s', (overrides, message, severity) => {
     expect(evaluate(overrides)).toEqual([{ message, severity }])
   })
@@ -85,11 +84,17 @@ describe('evaluatePnozStatuses', () => {
   })
 
   it('ignores a closed-door check when not in normal mode', () => {
-    expect(evaluate({ door_closed: 0, mode_normal: 0, mode_entnahme: 1 }))
-      .toEqual([{ message: 'mode_entnahme', severity: 'info' }])
+    expect(evaluate({ door_closed: 0, mode_normal: 0, mode_entnahme: 1 })).toEqual([
+      { message: 'mode_entnahme', severity: 'info' },
+      { message: 'enable_machine', severity: 'info' }
+    ])
   })
 
-  it('returns empty when klippy has an error but no condition matches', () => {
-    expect(evaluate()).toEqual([])
+  it('appends the enable hint when no pnoz error is present', () => {
+    expect(evaluate()).toEqual([{ message: 'enable_machine', severity: 'info' }])
+  })
+
+  it('does not append the enable hint when a pnoz error exists', () => {
+    expect(evaluate({ fault_estop: 1 })).toEqual([{ message: 'estop_fault', severity: 'error' }])
   })
 })
