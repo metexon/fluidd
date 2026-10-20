@@ -60,7 +60,7 @@
               </v-alert>
             </v-col>
             <v-col
-              v-else-if="klippyStateMessage !== 'Printer is ready' && !pnozShowsEnableHint"
+              v-else-if="klippyStateMessage !== 'Printer is ready' && !pnozHasError && !pnozShowsEnableHint"
               cols="12"
             >
               <v-alert
@@ -109,15 +109,16 @@ export default class MetexonStatusCard extends Mixins(StateMixin, ServicesMixin)
     return this.pnozStatuses.some(status => status.severity === 'error')
   }
 
+  get pnozMainEnabled (): boolean {
+    return this.$typedGetters['sensors/getPnozMainEnabled']
+  }
+
   get pnozShowsEnableHint (): boolean {
     return this.pnozStatuses.some(status => status.message === 'enable_machine')
   }
 
   get showReconnect (): boolean {
-    return !this.pnozHasError && (
-      this.klippyStateMessage !== 'Printer is ready' ||
-      this.pnozStatuses.length > 0
-    )
+    return !this.klippyReady && this.pnozMainEnabled && !this.pnozHasError
   }
 
   get cardIcon (): string {

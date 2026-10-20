@@ -5,7 +5,8 @@ import type { PnozStatus } from '@/util/pnoz-status'
 const makeWrapper = (
   state: Moonraker.Server.KlippyState,
   message: string,
-  pnozStatuses: PnozStatus[] = []
+  pnozStatuses: PnozStatus[] = [],
+  pnozMainEnabled = true
 ) => shallowMount(MetexonStatusCard, {
   mocks: {
     $t: (key: string) => key,
@@ -14,8 +15,10 @@ const makeWrapper = (
       'printer/getKlippyStateRaw': state,
       'printer/getKlippyStateMessage': message,
       'printer/getKlippyConnected': true,
+      'printer/getKlippyReady': state === 'ready',
       'printer/getHasWarnings': false,
-      'sensors/getPnozStatuses': pnozStatuses
+      'sensors/getPnozStatuses': pnozStatuses,
+      'sensors/getPnozMainEnabled': pnozMainEnabled
     }
   },
   stubs: {
@@ -68,12 +71,13 @@ describe('MetexonStatusCard', () => {
     expect(card.attributes('icon-color')).toBe('error')
 
     const alerts = wrapper.findAll('v-alert-stub')
-    expect(alerts.length).toBe(3)
+    expect(alerts.length).toBe(2)
     expect(alerts.at(0).attributes('type')).toBe('error')
     expect(alerts.at(1).attributes('type')).toBe('error')
     expect(wrapper.text()).not.toContain('app.general.tooltip.reload_restart_klipper')
     expect(wrapper.text()).toContain('app.pnoz.status.estop_fault')
     expect(wrapper.text()).toContain('app.pnoz.status.estop_inner_pressed')
+    expect(wrapper.text()).not.toContain('MCU lost communication')
   })
 
   it('shows a pnoz info status as an info alert when klippy is ready', () => {
@@ -89,7 +93,7 @@ describe('MetexonStatusCard', () => {
     const alerts = wrapper.findAll('v-alert-stub')
     expect(alerts.length).toBe(1)
     expect(alerts.at(0).attributes('type')).toBe('info')
-    expect(wrapper.text()).toContain('app.general.tooltip.reload_restart_klipper')
+    expect(wrapper.text()).not.toContain('app.general.tooltip.reload_restart_klipper')
     expect(wrapper.text()).toContain('app.pnoz.status.mode_justage')
   })
 
