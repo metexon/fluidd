@@ -1,4 +1,4 @@
-import { allExtrudersOffPlan, bodyState, findActiveGroup, groupCommand, groupMatchesActive, groupSelectionCommand, motorState, pwmText, temperatureCommand, temperatureState, temperatureText } from '../extruder-status'
+import { allExtrudersOffPlan, bodyState, extrusionMixCommand, extrusionMixRows, findActiveGroup, groupCommand, groupMatchesActive, groupSelectionCommand, motorState, pwmText, temperatureCommand, temperatureState, temperatureText } from '../extruder-status'
 
 const groups: Klipper.ExtruderStatusGroup[] = [
   {
@@ -127,5 +127,41 @@ describe('extruder status presentation', () => {
       turnOff: 'SET_EXTRUSION_TEMPERATURE TARGET=0 TARGET_T2=0',
       restore: 'SET_EXTRUSION_GROUP EXTRUDERS=3'
     })
+  })
+
+  it('lists one mix row per head and marks only active-group heads editable', () => {
+    const status: Klipper.ExtruderStatusState = {
+      extruders: [0, 1, 2, 3].map(head => ({
+        head,
+        name: head === 0 ? 'extruder' : `extruder${head}`,
+        active: head === 2 || head === 0,
+        mtx_tool: { index: head, logical_id: `T${head}` },
+        t1: { temperature: 25, target: 0, power: 0 }
+      })),
+      groups,
+      active_group: { id: 'custom', heads: [2, 0], ratios: [1, 0.5], temperature_mode: 'mtx' }
+    }
+
+    expect(extrusionMixRows(status)).toEqual([
+      { head: 0, name: 'extruder', tool: 'T0', active: true, ratio: 0.5 },
+      { head: 1, name: 'extruder1', tool: 'T1', active: false, ratio: 1 },
+      { head: 2, name: 'extruder2', tool: 'T2', active: true, ratio: 1 },
+      { head: 3, name: 'extruder3', tool: 'T3', active: false, ratio: 1 }
+    ])
+  })
+
+  it('builds a full group-order ratio list when one head changes', () => {
+    const activeGroup = { id: 'custom', heads: [2, 0], ratios: [1, 0.5] }
+
+    // head 0 sits at position 1 in the active group
+    expect(extrusionMixCommand(activeGroup, 0, 0.75)).toBe('SET_EXTRUSION_MIX RATIOS=1,0.75')
+    expect(extrusionMixCommand(activeGroup, 2, 1.25)).toBe('SET_EXTRUSION_MIX RATIOS=1.25,0.5')
+  })
+
+  it('refuses to change a head outside the active group', () => {
+    const activeGroup = { id: 'custom', heads: [2, 0], ratios: [1, 0.5] }
+
+    expect(extrusionMixCommand(activeGroup, 1, 0.75)).toBeNull()
+    expect(extrusionMixCommand(undefined, 0, 0.75)).toBeNull()
   })
 })

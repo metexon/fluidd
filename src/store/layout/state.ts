@@ -58,6 +58,7 @@ export const createState = (): LayoutState => {
         ],
         container2: [
           { id: 'extruders-card', enabled: true, collapsed: false },
+          { id: 'extruder-mix-card', enabled: true, collapsed: false },
           { id: 'spoolman-card', enabled: false, collapsed: false },
           { id: 'mmu-card', enabled: false, collapsed: false },
           { id: 'camera-card', enabled: false, collapsed: false },
@@ -93,6 +94,7 @@ export const createState = (): LayoutState => {
         ],
         container2: [
           { id: 'extruders-card', enabled: true, collapsed: false },
+          { id: 'extruder-mix-card', enabled: true, collapsed: false },
           { id: 'temperature-card', enabled: false, collapsed: false },
           { id: 'sensors-card', enabled: true, collapsed: false },
           { id: 'console-card', enabled: true, collapsed: false },

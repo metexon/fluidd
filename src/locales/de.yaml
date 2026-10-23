@@ -520,6 +520,7 @@ app:
       console: Konsole
       diagnostics: Diagnostik
       endstops: Endschalter
+      extruder_mix: Extrusions-Mischung
       fans_outputs: Lüfter & Ausgänge
       gcode_preview: Gcode-Vorschau
       history: Auftragsverlauf

@@ -643,6 +643,7 @@ app:
       diagnostics: Diagnostics
       details: Details
       extruders: Extruders
+      extruder_mix: Extrusion Mix
       edit_chart: Edit Chart
       endstops: Endstops
       fans_outputs: Fans & Outputs

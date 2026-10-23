@@ -52,6 +52,50 @@ export const groupSelectionCommand = (
   activeGroup: Klipper.ExtruderStatusState['active_group']
 ) => groupMatchesActive(group, activeGroup) ? null : groupCommand(group)
 
+export interface ExtrusionMixRow {
+  head: number;
+  name: string;
+  tool?: string;
+  active: boolean;
+  ratio: number;
+}
+
+export const extrusionMixRows = (
+  status: Klipper.ExtruderStatusState
+): ExtrusionMixRow[] => {
+  const heads = status.active_group?.heads ?? []
+  const ratios = status.active_group?.ratios ?? []
+
+  return status.extruders.map(extruder => {
+    const position = heads.indexOf(extruder.head)
+
+    return {
+      head: extruder.head,
+      name: extruder.name,
+      tool: extruder.mtx_tool?.logical_id,
+      active: position >= 0,
+      ratio: position >= 0 ? ratios[position] ?? 1 : 1
+    }
+  })
+}
+
+export const extrusionMixCommand = (
+  activeGroup: Klipper.ExtruderStatusState['active_group'] | undefined,
+  head: number,
+  ratio: number
+): string | null => {
+  const heads = activeGroup?.heads ?? []
+
+  if (!heads.includes(head)) return null
+
+  const ratios = heads.map((groupHead, position) => {
+    const value = groupHead === head ? ratio : activeGroup?.ratios[position] ?? 1
+    return +value.toFixed(3)
+  })
+
+  return `SET_EXTRUSION_MIX RATIOS=${ratios.join(',')}`
+}
+
 export interface AllExtrudersOffPlan {
   selectAll: string;
   turnOff: string;
